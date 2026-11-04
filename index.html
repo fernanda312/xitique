@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>XITIQUE — Poupança em grupo, a prazo</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}
+:root{--bg:#FFFFFF;--ink:#3C3C3C;--mut:#8A8A8A;--acc:#708AFF;--line:#E8E6E3;--soft:#FAF8F6}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Inter',sans-serif;font-weight:300;line-height:1.6}
+h1,h2,h3,.disp{font-family:'Sora',sans-serif;font-weight:700;line-height:1.1}
+a{color:inherit}
+img{display:block;max-width:100%}
+/* navegação flutuante em pílula */
+.nav{position:fixed;top:16px;left:50%;transform:translateX(-50%);width:min(1100px,calc(100% - 32px));z-index:80;display:flex;align-items:center;gap:24px;background:rgba(255,255,255,.92);border:1px solid var(--line);border-radius:999px;padding:10px 12px 10px 20px;backdrop-filter:blur(8px)}
+.logo{display:flex;align-items:center;gap:10px;cursor:pointer;text-decoration:none}
+.ring{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,#F4D9B2,#708AFF);flex-shrink:0}
+.logo b{font-family:'Sora',sans-serif;font-weight:800;letter-spacing:.18em;font-size:15px}
+.navlinks{margin-left:auto;display:flex;gap:22px;align-items:center}
+.navlinks a{font-size:13px;letter-spacing:.06em;text-decoration:none;color:var(--ink);cursor:pointer}
+.navlinks a:hover{color:var(--acc)}
+.nbtn{border:1.5px solid var(--ink);background:#fff;padding:8px 16px;font-size:13px;cursor:pointer;font-family:'Inter',sans-serif}
+.menubtn{display:none;margin-left:auto;border:1.5px solid var(--ink);background:#fff;padding:8px 14px;cursor:pointer}
+.mobmenu{display:none;position:fixed;top:72px;left:50%;transform:translateX(-50%);width:min(1100px,calc(100% - 32px));background:#fff;border:1px solid var(--line);border-radius:16px;z-index:79;padding:8px}
+.mobmenu.on{display:block}
+.mobmenu a{display:block;padding:12px 16px;text-decoration:none;font-size:15px;cursor:pointer;border-bottom:1px solid var(--line)}
+.mobmenu a:last-child{border-bottom:0}
+main{max-width:1100px;margin:0 auto;padding:0 20px}
+.view{display:none}
+.view.on{display:block}
+/* hero */
+.hero{text-align:center;padding:150px 0 40px}
+.pill{display:inline-block;border:1px solid var(--line);border-radius:999px;padding:6px 16px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
+.hero h1{font-size:clamp(38px,6vw,84px);letter-spacing:.08em;margin:28px 0 20px;text-transform:lowercase}
+.hero h1 i{color:var(--acc);font-style:italic}
+.hero p{max-width:560px;margin:0 auto;font-size:17px;color:var(--mut)}
+.btnrow{display:flex;gap:14px;justify-content:center;margin-top:28px;flex-wrap:wrap}
+.btn{border:1.5px solid var(--ink);background:#fff;color:var(--ink);padding:13px 22px;font-size:14px;cursor:pointer;font-family:'Inter',sans-serif}
+.btn:hover{background:var(--ink);color:#fff}
+.btnblack{background:var(--ink);color:#fff;border:1.5px solid var(--ink);padding:13px 22px;font-size:14px;cursor:pointer;font-family:'Inter',sans-serif}
+.herovis{margin-top:44px;background:linear-gradient(90deg,#F4D9B2,#F6E9F3);padding:20px}
+.herovis .row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.herovis img{width:100%}
+/* secções */
+section{padding:70px 0}
+.eyebrow{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--mut);text-align:center}
+h2.sec{font-size:clamp(30px,4.5vw,56px);letter-spacing:.06em;text-align:center;margin:16px 0 8px;text-transform:lowercase}
+h2.sec i{color:var(--acc);font-style:italic}
+.sub{text-align:center;color:var(--mut);max-width:600px;margin:0 auto 36px;font-size:16px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.card{border:1px solid var(--line);background:#fff}
+.card .body{padding:20px}
+.card h3{font-size:19px;letter-spacing:.04em;margin:0 0 8px;text-transform:lowercase}
+.card p{font-size:14px;color:var(--mut);margin:0}
+.band{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+.band img{width:100%}
+.steps{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;margin-bottom:44px}
+.step{border:1px solid var(--line);padding:24px}
+.step b{font-family:'Sora',sans-serif;font-size:30px;color:var(--acc)}
+.step h3{font-size:18px;margin:10px 0 6px;text-transform:lowercase}
+.step p{font-size:14px;color:var(--mut);margin:0}
+.gcard{border:1px solid var(--line);padding:24px}
+.gcard h3{font-size:21px;margin:0 0 12px;text-transform:lowercase}
+.gcard .num{font-family:'Sora',sans-serif;font-size:30px}
+.gcard .lab{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--mut)}
+.gcard .pot{margin-top:14px;padding-top:14px;border-top:1px solid var(--line);font-size:14px}
+.tcard{border:1px solid var(--line);background:#fff}
+.tcard .body{padding:20px}
+.tcard blockquote{margin:0 0 14px;font-size:15px;line-height:1.6}
+.tcard .who{font-size:13px;color:var(--mut)}
+.faq{max-width:760px;margin:0 auto}
+.faqitem{border:1px solid var(--line);margin-bottom:12px}
+.faqitem button{width:100%;text-align:left;background:#fff;border:0;padding:18px 20px;font-size:16px;font-family:'Sora',sans-serif;cursor:pointer;display:flex;justify-content:space-between;gap:12px}
+.faqitem .ans{display:none;padding:0 20px 18px;font-size:15px;color:var(--mut)}
+.faqitem.open .ans{display:block}
+/* rodapé */
+footer{border-top:1px solid var(--line);padding:60px 0 20px;margin-top:20px}
+.footgrid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:32px}
+.footgrid h4{font-family:'Sora',sans-serif;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--acc);margin:0 0 14px}
+.footgrid a{display:block;text-decoration:none;font-size:14px;padding:3px 0;cursor:pointer}
+.footgrid .emailbig{font-family:'Sora',sans-serif;font-size:clamp(20px,3vw,30px);margin:8px 0 18px}
+.newsrow{display:flex;gap:0;max-width:380px}
+.newsrow input{flex:1;border:1.5px solid var(--ink);padding:12px;font-size:14px;min-width:0}
+.newsrow button{border:1.5px solid var(--ink);border-left:0;background:var(--ink);color:#fff;padding:12px 18px;cursor:pointer;font-size:14px}
+.giant{font-family:'Sora',sans-serif;font-weight:800;font-size:clamp(64px,17vw,240px);letter-spacing:.08em;text-align:center;line-height:1;margin:40px 0 8px;background:linear-gradient(90deg,#F6A8C1,#708AFF);-webkit-background-clip:text;background-clip:text;color:transparent;text-transform:uppercase}
+.copy{text-align:center;font-size:12px;color:var(--mut);padding-bottom:10px}
+/* vistas conta/adesão/admin/chat */
+h1.page{font-size:clamp(38px,6vw,72px);letter-spacing:.06em;margin:130px 0 20px;text-transform:lowercase}
+label{display:block;font-size:11px;letter-spacing:.14em;text-transform:uppercase;margin:14px 0 6px;color:var(--mut)}
+input,select,textarea{width:100%;border:1.5px solid var(--ink);padding:12px;font-size:15px;font-family:'Inter',sans-serif;background:#fff}
+textarea{min-height:90px}
+.bcard{border:1px solid var(--line);padding:20px;margin-bottom:14px}
+.mut{color:var(--mut)}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{border-bottom:1px solid var(--line);padding:10px 6px;text-align:left;vertical-align:top}
+table button{border:1.5px solid var(--ink);background:#fff;padding:6px 10px;cursor:pointer;font-size:13px}
+.adminnav{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
+.adminnav button{border:1.5px solid var(--ink);background:#fff;padding:9px 14px;cursor:pointer;font-size:13px}
+.adminnav button.on{background:var(--ink);color:#fff}
+.chatwrap{margin:110px -20px 0;min-height:calc(100vh - 110px);background:var(--soft);padding:20px;display:flex;flex-direction:column}
+.chatmsgs{flex:1;display:flex;flex-direction:column;gap:10px;padding:10px 0}
+.msg{max-width:82%;padding:10px 12px;font-size:15px;line-height:1.5}
+.msg img{max-width:100%}
+.msg.mine{align-self:flex-end;background:var(--ink);color:#fff}
+.msg.theirs{align-self:flex-start;background:#fff;border:1px solid var(--line)}
+.msg .mt{font-size:11px;opacity:.65;margin-top:6px}
+.chatin{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.chatin input[type=text]{flex:1;min-width:180px}
+.convbtn{display:block;width:100%;text-align:left;background:#fff;border:1px solid var(--line);padding:12px;margin-bottom:8px;font-size:15px;cursor:pointer}
+@media(max-width:760px){
+.navlinks{display:none}
+.menubtn{display:block}
+.hero{padding-top:130px}
+.grid3,.grid2,.band,.steps{grid-template-columns:1fr}
+.herovis .row{grid-template-columns:1fr}
+.footgrid{grid-template-columns:1fr}
+h1.page{margin-top:120px}
+}
+</style>
+</head>
+<body>
+<header class="nav">
+<a class="logo" onclick="go('inicio')"><span class="ring"></span><b>XITIQUE</b></a>
+<div class="navlinks">
+<a onclick="scrollSec('funcionalidades')">Funcionalidades</a>
+<a onclick="scrollSec('grupos')">Grupos</a>
+<a onclick="scrollSec('testemunhos')">Testemunhos</a>
+<a onclick="scrollSec('perguntas')">Perguntas</a>
+<button class="nbtn" onclick="go('conta')">Conta</button>
+</div>
+<button class="menubtn" onclick="toggleMob()">MENU</button>
+</header>
+<div class="mobmenu" id="mobmenu">
+<a onclick="toggleMob();scrollSec('funcionalidades')">Funcionalidades</a>
+<a onclick="toggleMob();scrollSec('grupos')">Grupos</a>
+<a onclick="toggleMob();scrollSec('testemunhos')">Testemunhos</a>
+<a onclick="toggleMob();scrollSec('perguntas')">Perguntas</a>
+<a onclick="toggleMob();go('conta')">Conta</a>
+<a onclick="toggleMob();go('chat')">Chat</a>
+<a onclick="toggleMob();go('admin')">Gerência</a>
+</div>
+<main>
+<div id="v-inicio" class="view on">
+<div class="hero">
+<span class="pill">Poupança em grupo · a prazo</span>
+<h1>Poupar junto,<br>receber <i>a tua vez.</i></h1>
+<p>O xitique organiza a tua poupança em grupo: todos contribuem, um de cada vez recebe o valor combinado. Simples, a prazo, sem complicações.</p>
+<div class="btnrow"><button class="btn" onclick="go('adesao')">Começar a poupar →</button><button class="btn" onclick="scrollSec('grupos')">Ver grupos →</button></div>
+<div class="herovis"><div class="row">
+<img src="https://i.pinimg.com/736x/e2/5a/bf/e25abf66aa54454cf7410c18ab009298.jpg" alt="Grupo de poupança">
+<img src="https://i.pinimg.com/736x/1d/6a/37/1d6a379dfaf9e026baab7348705d62e9.jpg" alt="Reunião de poupança">
+</div></div>
+</div>
+<section id="funcionalidades">
+<div class="eyebrow">As nossas funcionalidades</div>
+<h2 class="sec">Feita para crescer <i>a tua poupança.</i></h2>
+<p class="sub">Transformar a forma de poupar, com regras claras e um grupo que se ajuda.</p>
+<div class="grid3">
+<div class="card"><img src="https://i.pinimg.com/736x/7f/4a/35/7f4a35e8cf90ca4e233ff988b4be69aa.jpg" alt="Associação de poupança"><div class="body"><h3>Poupança em grupo</h3><p>Junta-te a um grupo, contribui todos os meses e vê o pote crescer com todos.</p></div></div>
+<div class="card"><img src="https://i.pinimg.com/736x/1a/0c/f5/1a0cf5246f4e24ed2efec0f73dab5ee7.jpg" alt="Poupança no frasco"><div class="body"><h3>Levantamento a prazo</h3><p>No teu mês, recebes o valor combinado. Simples, sem surpresas.</p></div></div>
+<div class="card"><img src="https://i.pinimg.com/736x/5e/bf/70/5ebf700934af27117d9b9ce1e3e165a5.jpg" alt="Pagamento pelo telemóvel"><div class="body"><h3>Acompanhamento claro</h3><p>Sabes sempre quem já contribuiu, quem falta e quando chega a tua vez.</p></div></div>
+</div>
+</section>
+<section style="padding-top:0"><div class="band">
+<img src="https://i.pinimg.com/736x/27/50/82/275082908a4d5c822f35217d1f7bbb6e.jpg" alt="Vendedora no mercado">
+<img src="https://i.pinimg.com/736x/04/95/4b/04954b4aaa37ff3bbc56872feb7ad411.jpg" alt="Família">
+<img src="https://i.pinimg.com/736x/ff/5e/de/ff5ede4413077fdaf7575fe962cceb80.jpg" alt="Mealheiro">
+</div></section>
+<section id="grupos" style="padding-top:0">
+<div class="eyebrow">Grupos</div>
+<h2 class="sec">Escolhe <i>o teu grupo.</i></h2>
+<p class="sub">Cada grupo tem um valor mensal, um número de membros e um prazo. O pote é o valor mensal vezes o número de membros.</p>
+<div class="steps">
+<div class="step"><b>01</b><h3>Escolhe o grupo</h3><p>Escolhe o valor mensal que cabe no teu bolso e o prazo que queres.</p></div>
+<div class="step"><b>02</b><h3>Contribui todos os meses</h3><p>Contribui por M-Pesa no início de cada mês. A gerência confirma cada pagamento.</p></div>
+<div class="step"><b>03</b><h3>Recebe na tua vez</h3><p>No teu mês, recebes o pote inteiro. Depois continuas até todos receberem.</p></div>
+</div>
+<div class="grid3" id="groupsGrid"></div>
+</section>
+<section id="testemunhos">
+<div class="eyebrow">Testemunhos</div>
+<h2 class="sec">Quem poupa <i>connosco.</i></h2>
+<p class="sub">Membros que já fizeram o seu xitique e continuam a poupar.</p>
+<div class="grid2" id="testiGrid"></div>
+</section>
+<section id="perguntas">
+<div class="eyebrow">Perguntas frequentes</div>
+<h2 class="sec">Perguntas <i>frequentes.</i></h2>
+<div class="faq" id="faqBox"></div>
+</section>
+</div>
+<div id="v-conta" class="view"><h1 class="page">conta</h1><div id="accBox"></div></div>
+<div id="v-adesao" class="view"><h1 class="page">aderir a um grupo</h1><div id="adesaoBox"></div></div>
+<div id="v-admin" class="view"><h1 class="page">gerência</h1><div class="adminnav" id="adminNav"></div><div id="adminBox"></div></div>
+<div id="v-chat" class="view"><div id="chatBox"></div></div>
+</main>
+<footer>
+<div style="max-width:1100px;margin:0 auto;padding:0 20px">
+<div class="footgrid">
+<div><h4>Contacto</h4><div>Fala connosco em</div><div class="emailbig" id="footEmail"></div>
+<div class="newsrow"><input id="newsEmail" type="email" placeholder="O teu email"><button onclick="subscribe()">Subscrever</button></div><div id="newsOk" class="mut" style="margin-top:8px;font-size:13px"></div></div>
+<div><h4>Site</h4><a onclick="scrollSec('funcionalidades')">Funcionalidades</a><a onclick="scrollSec('grupos')">Grupos</a><a onclick="scrollSec('testemunhos')">Testemunhos</a><a onclick="scrollSec('perguntas')">Perguntas</a></div>
+<div><h4>Conta</h4><a onclick="go('conta')">Entrar / Criar conta</a><a onclick="go('chat')">Chat</a><a onclick="go('adesao')">Aderir a um grupo</a><a onclick="go('admin')">Gerência</a></div>
+</div>
+<div class="giant">XITIQUE</div>
+<div class="copy">© 2026 XITIQUE · Maputo, Moçambique</div>
+</div>
+</footer>
+<script>
+function load(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}}
+function save(k,v){localStorage.setItem(k,JSON.stringify(v))}
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');
+const fmtMT=n=>String(n).replace(/\B(?=(\d{3})+(?!\d))/g,'.')+' MT';
+async function sha(s){const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s));return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('')}
+let GROUPS=load('xitique_groups',[
+{id:'familia',name:'Grupo Família',contrib:500,members:10,term:10,desc:'Para começar devagar, com um valor leve todos os meses.',photo:''},
+{id:'mercado',name:'Grupo Mercado',contrib:1000,members:12,term:12,desc:'Para quem vende e quer um reforço maior a cada ano.',photo:''},
+{id:'crescer',name:'Grupo Crescer',contrib:2500,members:10,term:10,desc:'Para um objetivo maior: casa, negócio ou estudos.',photo:''},
+{id:'grande',name:'Grupo Grande',contrib:5000,members:12,term:12,desc:'Para quem já poupa e quer um pote grande na sua vez.',photo:''}]);
+let TESTI=load('xitique_testi',[
+{name:'Ana M.',city:'Maputo',quote:'Entrei para pagar a minha banca. No meu mês, recebi tudo de uma vez e avancei.',photo:'https://i.pinimg.com/736x/51/c1/a6/51c1a648dce1d499f936b354ab59e4e9.jpg'},
+{name:'João S.',city:'Maputo',quote:'É a forma mais simples de guardar. Todos os meses ponho o mesmo e sei quando chega a minha vez.',photo:'https://i.pinimg.com/736x/c6/92/d9/c692d91c590806deafbf0f1b21441a46.jpg'},
+{name:'Carla N.',city:'Matola',quote:'Começámos em família. Hoje já estamos no segundo grupo.',photo:'https://i.pinimg.com/736x/99/82/e9/9982e99332ed5f5e47a937d72ae31d8b.jpg'},
+{name:'Pedro A.',city:'Maputo',quote:'O acompanhamento é claro. Sei sempre quem já pagou e o que falta.',photo:'https://i.pinimg.com/736x/51/89/b4/5189b41b8ebc8b6a0c204d3329b138d7.jpg'}]);
+let FAQS=load('xitique_faqs',[
+{q:'O que é o xitique?',a:'É uma poupança em grupo: todos os membros contribuem com o mesmo valor todos os meses e, a cada mês, um membro recebe o pote inteiro. No fim, todos receberam uma vez.'},
+{q:'Como entro num grupo?',a:'Cria a tua conta, escolhe o grupo e envia o pedido de adesão. A gerência confirma a tua entrada e diz-te em que mês recebes.'},
+{q:'Quando recebo o valor?',a:'Recebes no teu mês, pela ordem do grupo. O pote é o valor mensal vezes o número de membros.'},
+{q:'Como faço os pagamentos?',a:'Por M-Pesa, no início de cada mês. A gerência confirma cada pagamento e o grupo acompanha tudo.'},
+{q:'Posso sair do grupo?',a:'Sim. Fala com a gerência no chat para acertar a tua saída e os valores já pagos.'}]);
+let ACCOUNTS=load('xitique_accounts',[]);
+let SESSION=load('xitique_session',null);
+let PEDIDOS=load('xitique_pedidos',[]);
+let CHAT=load('xitique_chat',[]);
+let SETTINGS=load('xitique_settings',{whatsapp:'258840000000',email:'ola@xitique.co.mz'});
+let ADMIN_TAB='grupos',EDIT_G=null,EDIT_T=null,EDIT_F=null,PRE_GROUP=null,CHAT_THREAD=null,REC=null,REC_CHUNKS=[];
+function me(){return SESSION?ACCOUNTS.find(a=>a.email===SESSION):null}
+function isAdmin(){const m=me();return m&&m.is_admin}
+function waChat(){window.open('https://wa.me/'+SETTINGS.whatsapp.replace(/\D/g,''),'_blank')}
+function toggleMob(){$('mobmenu').classList.toggle('on')}
+function scrollSec(id){const el=document.getElementById(id);if(!el)return;const cur=[...document.querySelectorAll('.view')].find(v=>v.classList.contains('on'));if(!cur||cur.id!=='v-inicio'){go('inicio');setTimeout(()=>document.getElementById(id).scrollIntoView({behavior:'smooth'}),60)}else el.scrollIntoView({behavior:'smooth'})}
+function renderLanding(){
+$('groupsGrid').innerHTML=GROUPS.map((g,i)=>`<div class="gcard"><h3>${esc(g.name)}</h3><div><span class="num">${fmtMT(g.contrib)}</span><div class="lab">por mês</div></div><div style="margin-top:12px;font-size:14px">${g.members} membros · ${g.term} meses</div><p style="font-size:14px;color:var(--mut)">${esc(g.desc)}</p><div class="pot">Pote de <b>${fmtMT(g.contrib*g.members)}</b></div><div style="margin-top:16px"><button class="btn" onclick="aderir(${i})">Aderir →</button></div></div>`).join('');
+$('testiGrid').innerHTML=TESTI.map(t=>`<div class="tcard"><img src="${t.photo}" alt=""><div class="body"><blockquote>“${esc(t.quote)}”</blockquote><div class="who">${esc(t.name)} — ${esc(t.city)}</div></div></div>`).join('');
+$('faqBox').innerHTML=FAQS.map((f,i)=>`<div class="faqitem" id="faq${i}"><button onclick="faqToggle(${i})"><span>${esc(f.q)}</span><span>+</span></button><div class="ans">${esc(f.a)}</div></div>`).join('');
+$('footEmail').textContent=SETTINGS.email;
+}
+function faqToggle(i){const el=$('faq'+i);if(el)el.classList.toggle('open')}
+function aderir(i){PRE_GROUP=GROUPS[i].id;go('adesao')}
+function subscribe(){const e=$('newsEmail').value.trim();if(!e.includes('@')){alert('Escreve um email válido.');return}const n=load('xitique_news',[]);n.push({email:e,data:new Date().toISOString()});save('xitique_news',n);$('newsOk').textContent='Obrigado! Ficaste subscrito.';$('newsEmail').value=''}
+function renderConta(){
+const m=me();
+if(!m){$('accBox').innerHTML=`<div style="max-width:420px"><label>Email</label><input id="aEmail" type="email"><label>Palavra-passe</label><input id="aPass" type="password"><label>Nome</label><input id="aName" placeholder="só no registo"><div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap"><button class="btnblack" onclick="loginSubmit()">Entrar</button><button class="btn" onclick="regSubmit()">Criar conta</button></div><p class="mut" style="margin-top:12px">A primeira conta criada é a da gerência.</p></div>`;return}
+$('accBox').innerHTML=`<div class="bcard"><b>${esc(m.name||m.email)}</b><div class="mut">${esc(m.email)}</div><div style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap">${m.is_admin?`<button class="btnblack" onclick="go('admin')">Gerência</button>`:''}<button class="btn" onclick="go('chat')">Chat</button><button class="btn" onclick="go('adesao')">Aderir a um grupo</button><button class="btn" onclick="logout()">Sair</button></div></div>`;
+}
+async function loginSubmit(){const e=$('aEmail').value.trim().toLowerCase(),p=$('aPass').value;const a=ACCOUNTS.find(x=>x.email===e);if(!a||a.pass!==await sha(p)){alert('Email ou palavra-passe errados.');return}SESSION=e;save('xitique_session',SESSION);go('inicio')}
+async function regSubmit(){const e=$('aEmail').value.trim().toLowerCase(),p=$('aPass').value,n=$('aName').value.trim();if(!e.includes('@')||p.length<4){alert('Escreve um email válido e uma palavra-passe com 4 ou mais caracteres.');return}if(ACCOUNTS.find(x=>x.email===e)){alert('Já existe uma conta com esse email. Entra em vez disso.');return}ACCOUNTS.push({email:e,pass:await sha(p),name:n||e,is_admin:ACCOUNTS.length===0});save('xitique_accounts',ACCOUNTS);SESSION=e;save('xitique_session',SESSION);go('inicio')}
+function logout(){SESSION=null;save('xitique_session',SESSION);go('inicio')}
+function renderAdesao(){
+const m=me();
+if(!m){$('adesaoBox').innerHTML=`<p style="font-size:18px;line-height:1.6">A adesão é só para quem tem conta. Entra ou cria a tua conta para aderires a um grupo.</p><button class="btnblack" onclick="go('conta')">Entrar / Criar conta</button>`;return}
+$('adesaoBox').innerHTML=`<div style="max-width:520px"><label>Grupo</label><select id="dGroup">${GROUPS.map(g=>`<option value="${g.id}" ${PRE_GROUP===g.id?'selected':''}>${esc(g.name)} — ${fmtMT(g.contrib)}/mês</option>`).join('')}</select><label>Nome *</label><input id="dName" value="${esc(m.name||'')}"><label>Email *</label><input id="dEmail" type="email" value="${esc(m.email)}"><label>Telemóvel M-Pesa *</label><input id="dTel" placeholder="84 ou 85 + 7 dígitos"><label>Nota (opcional)</label><textarea id="dNote" placeholder="Ex: quero receber em dezembro para a minha banca."></textarea><div style="margin-top:16px"><button class="btnblack" onclick="submitAdesao()">Enviar pedido →</button></div><div id="adesaoOk"></div></div>`;
+}
+function submitAdesao(){
+const g=$('dGroup').value,n=$('dName').value.trim(),e=$('dEmail').value.trim(),t=$('dTel').value.replace(/\D/g,'');
+if(!n||!e.includes('@')){alert('Escreve o nome e um email válido.');return}
+if(!/^(84|85)\d{7}$/.test(t)){alert('Escreve um número M-Pesa válido: 84 ou 85 seguidos de 7 dígitos.');return}
+const gr=GROUPS.find(x=>x.id===g);
+PEDIDOS.unshift({id:'pd'+Date.now(),grupo:gr?gr.name:g,nome:n,email:e,tel:t,nota:$('dNote').value.trim(),data:new Date().toISOString(),estado:'novo'});
+save('xitique_pedidos',PEDIDOS);
+$('adesaoOk').innerHTML='<p style="margin-top:16px;font-weight:600">Obrigado! O teu pedido de adesão ficou registado. A gerência confirma a tua entrada e diz-te em que mês recebes.</p><button class="btn" onclick="waChat()">Ou fala já no WhatsApp →</button>';
+}
+function msgHtml(m,mine){let body='';if(m.text)body+=`<div>${esc(m.text)}</div>`;if(m.file){if(m.file.startsWith('data:image'))body+=`<img src="${m.file}" style="max-width:100%">`;else if(m.file.startsWith('data:audio'))body+=`<audio controls src="${m.file}" style="width:100%"></audio>`;else body+=`<a href="${m.file}" download="${esc(m.fname||'ficheiro')}">📎 ${esc(m.fname||'ficheiro')}</a>`}if(m.audio)body+=`<audio controls src="${m.audio}" style="width:100%"></audio>`;return `<div class="msg ${mine?'mine':'theirs'}">${body}<div class="mt">${new Date(m.time).toLocaleString('pt-MZ',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'})} ${mine?(m.seen?'✓✓':'✓'):''}</div></div>`}
+function renderChat(){
+const m=me();
+if(!m){$('chatBox').innerHTML=`<div class="chatwrap"><h1 class="page" style="margin-top:0">chat</h1><p style="font-size:18px;line-height:1.6">O chat é só para quem tem conta. Entra ou cria a tua conta para falares connosco.</p><button class="btnblack" onclick="go('conta')">Entrar / Criar conta</button></div>`;return}
+CHAT.forEach(x=>{if(x.from==='gerência'&&x.to===m.email&&!x.seen)x.seen=true});save('xitique_chat',CHAT);
+const th=CHAT.filter(x=>x.from===m.email||x.to===m.email);
+$('chatBox').innerHTML=`<div class="chatwrap"><h1 class="page" style="margin-top:0">chat — XITIQUE</h1><div class="mut" style="margin-bottom:8px">${esc(m.email)}</div><div class="chatmsgs">${th.map(x=>msgHtml(x,x.from===m.email)).join('')||'<p class="mut">Ainda não há mensagens. Escreve a primeira.</p>'}</div><div class="chatin"><input type="text" id="chatIn" placeholder="Escreve a tua mensagem..."><label class="btn" style="cursor:pointer;padding:12px 16px">📎<input type="file" id="chatFile" accept="image/*,audio/*,.pdf" style="display:none" onchange="chatFilePicked(this)"></label><button class="btn" id="recBtn" onclick="toggleRec()">● Gravar</button><button class="btnblack" onclick="chatSend()">Enviar</button></div></div>`;
+}
+function chatSend(){const m=me();if(!m)return;const inp=$('chatIn');const t=inp.value.trim();const f=$('chatFile');if(!t&&!(f&&f.files[0]))return;if(f&&f.files[0]){const fl=f.files[0];if(fl.size>5*1024*1024){alert('O ficheiro deve ter até 5 MB.');return}const r=new FileReader();r.onload=()=>{CHAT.push({id:Date.now(),from:m.email,to:'gerência',text:t,file:r.result,fname:fl.name,time:Date.now(),seen:false});save('xitique_chat',CHAT);renderChat()};r.readAsDataURL(fl)}else{CHAT.push({id:Date.now(),from:m.email,to:'gerência',text:t,time:Date.now(),seen:false});save('xitique_chat',CHAT);renderChat()}}
+function chatFilePicked(inp){if(inp.files[0])alert('Ficheiro pronto: '+inp.files[0].name+'. Carrega em Enviar.')}
+async function toggleRec(){const btn=$('recBtn');if(REC){REC.stop();return}try{const stream=await navigator.mediaDevices.getUserMedia({audio:true});REC_CHUNKS=[];REC=new MediaRecorder(stream);REC.ondataavailable=e=>{if(e.data.size)REC_CHUNKS.push(e.data)};REC.onstop=()=>{const blob=new Blob(REC_CHUNKS,{type:'audio/webm'});const r=new FileReader();r.onload=()=>{const m=me();if(m){CHAT.push({id:Date.now(),from:m.email,to:'gerência',audio:r.result,time:Date.now(),seen:false});save('xitique_chat',CHAT);renderChat()}};r.readAsDataURL(blob);REC=null;btn.textContent='● Gravar'};REC.start();btn.textContent='■ Parar'}catch(e){alert('Não foi possível aceder ao microfone.')}} 
+function adminNavRender(){$('adminNav').innerHTML=[['grupos','Grupos'],['testemunhos','Testemunhos'],['perguntas','Perguntas'],['pedidos','Pedidos'],['conversas','Conversas'],['definicoes','Definições']].map(t=>`<button class="${ADMIN_TAB===t[0]?'on':''}" onclick="adminTab('${t[0]}')">${t[1]}</button>`).join('')}
+function adminTab(t){ADMIN_TAB=t;renderAdmin()}
+function fileToDataURL(inp,hiddenId){const f=inp.files[0];if(!f)return;if(f.size>10*1024*1024){alert('A foto deve ter até 10 MB.');return}const r=new FileReader();r.onload=()=>{$(hiddenId).value=r.result;alert('Foto carregada. Guarda para aplicar.')};r.readAsDataURL(f)}
+function renderAdmin(){
+if(!isAdmin()){$('adminBox').innerHTML='<p class="mut">Área reservada à gerência.</p>';return}
+adminNavRender();
+if(ADMIN_TAB==='grupos'){
+$('adminBox').innerHTML=`<table><tr><th>Grupo</th><th>Mensal</th><th>Membros</th><th>Prazo</th><th></th></tr>${GROUPS.map((g,i)=>`<tr><td>${esc(g.name)}</td><td>${fmtMT(g.contrib)}</td><td>${g.members}</td><td>${g.term} meses</td><td><button onclick="groupEdit(${i})">Editar</button> <button onclick="groupDel(${i})">Apagar</button></td></tr>`).join('')}</table>
+<div class="bcard" style="margin-top:16px"><b id="groupFormTitle">Novo grupo</b><div style="display:grid;gap:10px;margin-top:12px"><input id="fGName" placeholder="Nome do grupo"><input id="fGContrib" type="number" placeholder="Valor mensal em MT"><input id="fGMembers" type="number" placeholder="Número de membros"><input id="fGTerm" type="number" placeholder="Prazo em meses"><textarea id="fGDesc" placeholder="Descrição"></textarea><label>Foto (por ficheiro, opcional)</label><input type="file" accept="image/*" onchange="fileToDataURL(this,'fGImg')"><input type="hidden" id="fGImg"><button class="btnblack" onclick="groupSave()">Guardar grupo</button></div></div>`;
+}else if(ADMIN_TAB==='testemunhos'){
+$('adminBox').innerHTML=`<table><tr><th>Membro</th><th>Cidade</th><th></th></tr>${TESTI.map((t,i)=>`<tr><td>${esc(t.name)}</td><td>${esc(t.city)}</td><td><button onclick="testiEdit(${i})">Editar</button> <button onclick="testiDel(${i})">Apagar</button></td></tr>`).join('')}</table>
+<div class="bcard" style="margin-top:16px"><b id="testiFormTitle">Novo testemunho</b><div style="display:grid;gap:10px;margin-top:12px"><input id="fTName" placeholder="Nome"><input id="fTCity" placeholder="Cidade"><textarea id="fTQuote" placeholder="Testemunho"></textarea><label>Foto (por ficheiro)</label><input type="file" accept="image/*" onchange="fileToDataURL(this,'fTImg')"><input type="hidden" id="fTImg"><button class="btnblack" onclick="testiSave()">Guardar testemunho</button></div></div>`;
+}else if(ADMIN_TAB==='perguntas'){
+$('adminBox').innerHTML=`<table><tr><th>Pergunta</th><th></th></tr>${FAQS.map((f,i)=>`<tr><td>${esc(f.q)}</td><td><button onclick="faqEdit(${i})">Editar</button> <button onclick="faqDel(${i})">Apagar</button></td></tr>`).join('')}</table>
+<div class="bcard" style="margin-top:16px"><b id="faqFormTitle">Nova pergunta</b><div style="display:grid;gap:10px;margin-top:12px"><input id="fQ" placeholder="Pergunta"><textarea id="fA" placeholder="Resposta"></textarea><button class="btnblack" onclick="faqSave()">Guardar pergunta</button></div></div>`;
+}else if(ADMIN_TAB==='pedidos'){
+$('adminBox').innerHTML=PEDIDOS.length?`<table><tr><th>Pedido</th><th>Contacto</th><th>Estado</th><th></th></tr>${PEDIDOS.map((r,i)=>`<tr><td><b>Adesão</b> — ${esc(r.grupo)}<br><span class="mut">${esc(r.nome)}${r.nota?' — '+esc(r.nota):''}</span></td><td>${esc(r.email)}<br><span class="mut">${esc(r.tel)} · ${new Date(r.data).toLocaleDateString('pt-MZ')}</span></td><td>${esc(r.estado)}</td><td><button onclick="pedidoEstado(${i})">${r.estado==='novo'?'Marcar tratado':'Reabrir'}</button> <button onclick="pedidoDel(${i})">Apagar</button></td></tr>`).join('')}</table>`:'<p class="mut">Ainda não há pedidos.</p>';
+}else if(ADMIN_TAB==='conversas'){
+const users=[...new Set(CHAT.filter(m=>m.from!=='gerência').map(m=>m.from))];
+if(!CHAT_THREAD){$('adminBox').innerHTML=users.length?users.map(u=>{const th=CHAT.filter(m=>m.from===u||m.to===u);const last=th[th.length-1];const un=CHAT.filter(m=>m.from===u&&!m.seen).length;return `<button class="convbtn" onclick="CHAT_THREAD='${u}';renderAdmin()">${esc(u)}${un?` <b>(${un} novas)</b>`:''}<br><span class="mut">${esc(((last.text||'[ficheiro/áudio]').slice(0,60)))}</span></button>`}).join(''):'<p class="mut">Ainda não há conversas.</p>';}
+else{const u=CHAT_THREAD;CHAT.forEach(m=>{if(m.from===u&&!m.seen)m.seen=true});save('xitique_chat',CHAT);const th=CHAT.filter(m=>m.from===u||m.to===u);$('adminBox').innerHTML=`<button class="btn" onclick="CHAT_THREAD=null;renderAdmin()">← Todas as conversas</button><div class="chatmsgs" style="margin-top:12px">${th.map(x=>msgHtml(x,x.from==='gerência')).join('')}</div><div class="chatin"><input type="text" id="admChatIn" placeholder="Escreve a resposta..."><button class="btnblack" onclick="adminChatSend()">Enviar</button></div>`;}
+}else{
+$('adminBox').innerHTML=`<div class="bcard" style="display:grid;gap:10px;max-width:520px"><b>Definições</b><label>WhatsApp (ex: 25884…)</label><input id="fWa" value="${esc(SETTINGS.whatsapp)}"><label>Email de contacto</label><input id="fEmail" value="${esc(SETTINGS.email)}"><button class="btnblack" onclick="saveSettings()">Guardar definições</button></div>`;
+}
+}
+function groupEdit(i){const g=GROUPS[i];EDIT_G=i;renderAdmin();$('groupFormTitle').textContent='Editar grupo';$('fGName').value=g.name;$('fGContrib').value=g.contrib;$('fGMembers').value=g.members;$('fGTerm').value=g.term;$('fGDesc').value=g.desc;$('fGImg').value=g.photo||''}
+function groupSave(){const n=$('fGName').value.trim(),c=+($('fGContrib').value)||0,m=+($('fGMembers').value)||0,t=+($('fGTerm').value)||0,d=$('fGDesc').value.trim(),ph=$('fGImg').value;if(!n||!c||!m){alert('Escreve o nome, o valor mensal e o número de membros.');return}if(EDIT_G!==null){Object.assign(GROUPS[EDIT_G],{name:n,contrib:c,members:m,term:t||m,desc:d||GROUPS[EDIT_G].desc,photo:ph||GROUPS[EDIT_G].photo})}else{GROUPS.push({id:'g'+Date.now(),name:n,contrib:c,members:m,term:t||m,desc:d,photo:ph})}EDIT_G=null;save('xitique_groups',GROUPS);renderLanding();renderAdmin();alert('Grupo guardado.')}
+function groupDel(i){if(!confirm('Apagar este grupo?'))return;GROUPS.splice(i,1);save('xitique_groups',GROUPS);renderLanding();renderAdmin()}
+function testiEdit(i){const t=TESTI[i];EDIT_T=i;renderAdmin();$('testiFormTitle').textContent='Editar testemunho';$('fTName').value=t.name;$('fTCity').value=t.city;$('fTQuote').value=t.quote;$('fTImg').value=t.photo||''}
+function testiSave(){const n=$('fTName').value.trim(),c=$('fTCity').value.trim(),q=$('fTQuote').value.trim(),ph=$('fTImg').value;if(!n||!q){alert('Escreve o nome e o testemunho.');return}if(EDIT_T!==null){Object.assign(TESTI[EDIT_T],{name:n,city:c,quote:q,photo:ph||TESTI[EDIT_T].photo})}else{TESTI.push({name:n,city:c,quote:q,photo:ph})}EDIT_T=null;save('xitique_testi',TESTI);renderLanding();renderAdmin();alert('Testemunho guardado.')}
+function testiDel(i){if(!confirm('Apagar este testemunho?'))return;TESTI.splice(i,1);save('xitique_testi',TESTI);renderLanding();renderAdmin()}
+function faqEdit(i){const f=FAQS[i];EDIT_F=i;renderAdmin();$('faqFormTitle').textContent='Editar pergunta';$('fQ').value=f.q;$('fA').value=f.a}
+function faqSave(){const q=$('fQ').value.trim(),a=$('fA').value.trim();if(!q||!a){alert('Escreve a pergunta e a resposta.');return}if(EDIT_F!==null){FAQS[EDIT_F]={q,a}}else{FAQS.push({q,a})}EDIT_F=null;save('xitique_faqs',FAQS);renderLanding();renderAdmin();alert('Pergunta guardada.')}
+function faqDel(i){if(!confirm('Apagar esta pergunta?'))return;FAQS.splice(i,1);save('xitique_faqs',FAQS);renderLanding();renderAdmin()}
+function pedidoEstado(i){PEDIDOS[i].estado=PEDIDOS[i].estado==='novo'?'tratado':'novo';save('xitique_pedidos',PEDIDOS);renderAdmin()}
+function pedidoDel(i){if(!confirm('Apagar este pedido?'))return;PEDIDOS.splice(i,1);save('xitique_pedidos',PEDIDOS);renderAdmin()}
+function adminChatSend(){const t=$('admChatIn').value.trim();if(!t||!CHAT_THREAD)return;CHAT.push({id:Date.now(),from:'gerência',to:CHAT_THREAD,text:t,time:Date.now(),seen:false});save('xitique_chat',CHAT);renderAdmin()}
+function saveSettings(){SETTINGS.whatsapp=$('fWa').value.trim();SETTINGS.email=$('fEmail').value.trim();save('xitique_settings',SETTINGS);renderLanding();alert('Definições guardadas.')}
+function go(v){
+document.querySelectorAll('.view').forEach(el=>el.classList.remove('on'));
+const el=$('v-'+v);if(el)el.classList.add('on');
+if(v==='inicio')renderLanding();
+if(v==='conta')renderConta();
+if(v==='adesao')renderAdesao();
+if(v==='admin')renderAdmin();
+if(v==='chat')renderChat();
+window.scrollTo(0,0);
+}
+function route(){const h=(location.hash||'#inicio').replace('#','');if(['inicio','conta','adesao','admin','chat'].includes(h))go(h);else go('inicio')}
+window.addEventListener('hashchange',route);
+renderLanding();route();
+</script>
+</body>
+</html>
