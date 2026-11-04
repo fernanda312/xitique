@@ -289,7 +289,7 @@ function adminNavRender(){$('adminNav').innerHTML=[['grupos','Grupos'],['testemu
 function adminTab(t){ADMIN_TAB=t;renderAdmin()}
 function fileToDataURL(inp,hiddenId){const f=inp.files[0];if(!f)return;if(f.size>10*1024*1024){alert('A foto deve ter até 10 MB.');return}const r=new FileReader();r.onload=()=>{$(hiddenId).value=r.result;alert('Foto carregada. Guarda para aplicar.')};r.readAsDataURL(f)}
 function renderAdmin(){
-if(!isAdmin()){$('adminBox').innerHTML='<p class="mut">Área reservada à gerência.</p>';return}
+if(!isAdmin()){$('adminNav').innerHTML='';$('adminBox').innerHTML='<p class="mut">Área reservada à gerência.</p>';return}
 adminNavRender();
 if(ADMIN_TAB==='grupos'){
 $('adminBox').innerHTML=`<table><tr><th>Grupo</th><th>Mensal</th><th>Membros</th><th>Prazo</th><th></th></tr>${GROUPS.map((g,i)=>`<tr><td>${esc(g.name)}</td><td>${fmtMT(g.contrib)}</td><td>${g.members}</td><td>${g.term} meses</td><td><button onclick="groupEdit(${i})">Editar</button> <button onclick="groupDel(${i})">Apagar</button></td></tr>`).join('')}</table>
